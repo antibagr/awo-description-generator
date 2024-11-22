@@ -1,17 +1,19 @@
 import typing
 
-from app.dto import enums
+import pydantic
+
+from app.dto import annotations, enums
 from app.dto.entities.base import APISchemeBaseModel
 
 
 @typing.final
 class CreateReportRequestPayload(APISchemeBaseModel):
-    product_name: str
-    length: str
-    tone_of_voice: enums.ToneOfVoice
-    keywords: list[str]
-    minus_words: list[str]
-    advantages: list[str]
+    product_name: annotations.String
+    length: pydantic.PositiveInt
+    tone_of_voice: typing.Annotated[str, enums.ToneOfVoice]
+    keywords: list[annotations.String]
+    minus_words: list[annotations.String]
+    advantages: list[annotations.String]
 
 
 @typing.final

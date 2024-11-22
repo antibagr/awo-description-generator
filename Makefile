@@ -25,7 +25,7 @@ lint: ## Lint the source code
 .PHONY: lint
 
 test: ## Run tests
-	$(py) pytest
+	$(py) pytest -s -vvv
 .PHONY: test
 
 coverage: ## Run unit tests and check coverage
@@ -40,3 +40,7 @@ compose-up: ## Run the development server with docker-compose
 compose-down: ## Stop the development server with docker-compose
 	COMPOSE_PROJECT_NAME=${DOCKER_COMPOSE_PROJECT_NAME} docker compose -f ${DOCKER_COMPOSE_FILE} down --remove-orphans -v -t 0
 .PHONY: compose-down
+
+run-web: ## Run the web server
+	$(py) gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.asgi:fastapi_app --bind 0.0.0.0:8000 --timeout 300 --log-level debug
+.PHONY: run-web

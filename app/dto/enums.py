@@ -4,7 +4,7 @@ import typing
 
 @typing.final
 @enum.unique
-class ToneOfVoice(enum.Enum):
+class ToneOfVoice(enum.StrEnum):
     NEUTRAL = "neutral"
     OPTIMISTIC = "optimistic"
     FRIENDLY = "friendly"

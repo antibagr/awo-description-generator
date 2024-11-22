@@ -21,3 +21,7 @@ class AuthenticationError(APIError):
 
 class ReportGenerationError(APIError):
     code = "report_generation_error"
+
+
+class NotFoundError(APIError):
+    code = "not_found"

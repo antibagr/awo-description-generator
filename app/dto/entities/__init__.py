@@ -1,3 +1,3 @@
-from . import attributes, base, reports
+from . import base, reports
 
-__all__ = ["attributes", "base", "reports"]
+__all__ = ["base", "reports"]

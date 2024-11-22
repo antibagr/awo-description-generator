@@ -24,7 +24,7 @@ async def aiohttp_session() -> aiohttp.ClientSession:
     return aiohttp.ClientSession()
 
 
-async def chatgpt_client(
+async def chat_gpt_client(
     settings: typing.Annotated[Settings, fastapi.Depends(settings)],
 ) -> AiohttpChatGPTClient:
     return AiohttpChatGPTClient(
@@ -47,18 +47,18 @@ async def wb_client(
     settings: typing.Annotated[Settings, fastapi.Depends(settings)],
 ) -> WBClient:
     return WBClient(
-        url=settings.WBCON_URL,
-        token=settings.WBCON_TOKEN.get_secret_value(),
+        url=settings.WB_URL,
+        token=settings.WB_TOKEN.get_secret_value(),
     )
 
 
 async def reports_repo(
-    chatgpt_client: typing.Annotated[AiohttpChatGPTClient, fastapi.Depends(chatgpt_client)],
+    chat_gpt_client: typing.Annotated[AiohttpChatGPTClient, fastapi.Depends(chat_gpt_client)],
     clusters_client: typing.Annotated[ClustersClient, fastapi.Depends(clusters_client)],
     wb_client: typing.Annotated[WBClient, fastapi.Depends(wb_client)],
 ) -> ReportsRepository:
     return ReportsRepository(
-        chatgpt_client=chatgpt_client,
+        chat_gpt_client=chat_gpt_client,
         clusters_client=clusters_client,
         wb_client=wb_client,
     )

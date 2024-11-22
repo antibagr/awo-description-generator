@@ -1,5 +1,6 @@
 import typing
 
+import aiocache
 import pydantic
 import pydantic_settings
 
@@ -7,8 +8,8 @@ from app.dto import annotations
 
 
 class WBConSettings(pydantic_settings.BaseSettings):
-    WBCON_URL: annotations.HttpsUrl
-    WBCON_TOKEN: pydantic.SecretStr
+    WB_URL: annotations.HttpsUrl
+    WB_TOKEN: pydantic.SecretStr
 
 
 class GeneratorSettings(pydantic_settings.BaseSettings):
@@ -32,14 +33,18 @@ class GeneratorSettings(pydantic_settings.BaseSettings):
 
     CLUSTERS_SERVICE_URL: annotations.HttpsUrl
 
+    GPT_MODEL: str = "gpt-3.5-turbo"
+
 
 class AppSettings(pydantic_settings.BaseSettings):
-    ENVIRONMENT: str
+    ENVIRONMENT: typing.Literal["local", "dev", "prod"]
     DEBUG: bool
     AUTH_TOKEN: pydantic.SecretStr
 
     HOST: str
     PORT: int
+
+    CACHE_TYPE: type[aiocache.BaseCache] = aiocache.Cache.MEMORY
 
     @property
     def IS_PRODUCTION(self) -> bool:

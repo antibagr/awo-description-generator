@@ -1,19 +1,22 @@
 import typing
 
 import fastapi
+from loguru import logger
 
 from app.dto import commands, exceptions
 from app.services.reports import ReportsService
 from app.transport.http import dependencies, schema
 
-router = fastapi.APIRouter(tags=["reports"])
+router = fastapi.APIRouter(
+    tags=["reports"],
+    dependencies=[fastapi.Depends(dependencies.authenticate)],
+)
 
 
 @router.post(
     path="/v1/reports",
-    summary="Create AWO report",
+    summary="Create product report",
     responses=schema.error.Responses,
-    dependencies=[fastapi.Depends(dependencies.authenticate)],
 )
 async def create_report(
     req: schema.reports.CreateReportRequestPayload,
@@ -39,4 +42,5 @@ async def create_report(
             wb_count=report.wb_count,
         )
     except Exception as exc:
+        logger.opt(exception=exc).error("Error on creating product report.")
         raise exceptions.ReportGenerationError("Error on generating product description.") from exc

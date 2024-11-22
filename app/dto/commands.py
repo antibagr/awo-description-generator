@@ -13,8 +13,8 @@ class CreateReport(BaseModel):
     """Command emitted when the user requests a new report."""
 
     product_name: str
-    length: str
-    tone_of_voice: int
+    length: int
+    tone_of_voice: str
     keywords: list[str]
     minus_words: list[str]
     advantages: list[str]
@@ -24,8 +24,8 @@ class GenerateDescription(BaseModel):
     """Command emitted when the user requests to generate a description."""
 
     product_name: str
-    length: str
-    tone_of_voice: int
+    length: int
+    tone_of_voice: str
     keywords: str
     minus_words: str
     advantages: str

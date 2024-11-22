@@ -3,7 +3,7 @@ import typing
 import aiohttp
 import openai
 
-from app.dto import commands
+from app.dto import annotations, commands
 
 
 class ChatGPTClient:
@@ -65,13 +65,13 @@ class AiohttpChatGPTClient(ChatGPTClient):
         self,
         *,
         token: str,
-        url: str,
+        url: annotations.HttpsUrl,
         prompt: str,
         proxy: str | None,
         model: str = "gpt-3.5-turbo-16k",
     ) -> None:
         self._token = token
-        self._url = url
+        self._url = str(url)
         self._prompt = prompt
         self._proxy = proxy
         self._model = model
@@ -81,7 +81,7 @@ class AiohttpChatGPTClient(ChatGPTClient):
 
         gpt_params = (
             f"name: {command.product_name}\n"
-            f"description length: {command.length.split('_')[1]}\n"
+            f"description length: {command.length}\n"
             f"text tone: {command.tone_of_voice}\n"
             f"keywords: {command.keywords}\n"
             f"negative keywords: {command.minus_words}\n"

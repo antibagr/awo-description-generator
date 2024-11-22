@@ -4,7 +4,7 @@ import fastapi
 import fastapi.encoders
 import starlette.types
 
-from app.dto.exceptions import AuthenticationError, ClientError, ErrorProtocol, ReportGenerationError
+from app.dto.exceptions import AuthenticationError, ClientError, ErrorProtocol, NotFoundError, ReportGenerationError
 
 
 async def validation_error_handler(
@@ -53,6 +53,7 @@ ERROR_MAP: typing.Mapping[type[ErrorProtocol], int] = {
     AuthenticationError: fastapi.status.HTTP_401_UNAUTHORIZED,
     ClientError: fastapi.status.HTTP_400_BAD_REQUEST,
     ReportGenerationError: fastapi.status.HTTP_500_INTERNAL_SERVER_ERROR,
+    NotFoundError: fastapi.status.HTTP_404_NOT_FOUND,
 }
 
 

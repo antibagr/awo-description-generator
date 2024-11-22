@@ -100,5 +100,6 @@ def setup_logging(*, debug: bool) -> None:
     # https://spenx.atlassian.net/browse/DAUP-254
     logging.getLogger("asyncio").setLevel(logging.WARNING)
     logger.remove()
-    logger.add(_sink, level="DEBUG" if debug else "INFO")
+    # logger.add(_sink, level="DEBUG" if debug else "INFO")
+    logger.add(sys.stdout, level="DEBUG" if debug else "INFO")
     logging.basicConfig(handlers=[_InterceptHandler()], level=0, force=True)

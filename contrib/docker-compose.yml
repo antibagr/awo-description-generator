@@ -2,7 +2,9 @@ services:
   web:
     container_name: web
     build:
-      context: .
-      dockerfile: Dockerfile.web
+      context: ..
+      dockerfile: ./deploy/Dockerfile.web
+    env_file:
+      - ../.env
     ports:
       - "8000:8000"

@@ -31,7 +31,7 @@ class GeneratorSettings(pydantic_settings.BaseSettings):
 
     GPT_PROXY: str | None
 
-    CLUSTERS_SERVICE_URL: annotations.HttpsUrl
+    CLUSTERS_SERVICE_URL: pydantic.AnyHttpUrl
 
     GPT_MODEL: str = "gpt-3.5-turbo"
 

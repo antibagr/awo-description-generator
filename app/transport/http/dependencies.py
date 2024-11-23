@@ -5,7 +5,7 @@ import fastapi
 import fastapi.security
 
 from app.dto import exceptions
-from app.lib.chatgpt import AiohttpChatGPTClient
+from app.lib.chatgpt import ChatGPTClient, OpenAIChatGPTClient
 from app.lib.clusters import ClustersClient
 from app.lib.wb import WBClient
 from app.repository.reports import ReportsRepository
@@ -26,10 +26,9 @@ async def aiohttp_session() -> aiohttp.ClientSession:
 
 async def chat_gpt_client(
     settings: typing.Annotated[Settings, fastapi.Depends(settings)],
-) -> AiohttpChatGPTClient:
-    return AiohttpChatGPTClient(
+) -> ChatGPTClient:
+    return OpenAIChatGPTClient(
         token=settings.OPENAI_API_KEY.get_secret_value(),
-        url=settings.GPT_URL,
         prompt=settings.GPT_PROMPT,
         proxy=settings.GPT_PROXY,
     )
@@ -39,7 +38,7 @@ async def clusters_client(
     settings: typing.Annotated[Settings, fastapi.Depends(settings)],
 ) -> ClustersClient:
     return ClustersClient(
-        url=settings.CLUSTERS_SERVICE_URL,
+        url=str(settings.CLUSTERS_SERVICE_URL),
     )
 
 
@@ -47,13 +46,13 @@ async def wb_client(
     settings: typing.Annotated[Settings, fastapi.Depends(settings)],
 ) -> WBClient:
     return WBClient(
-        url=settings.WB_URL,
+        url=str(settings.WB_URL),
         token=settings.WB_TOKEN.get_secret_value(),
     )
 
 
 async def reports_repo(
-    chat_gpt_client: typing.Annotated[AiohttpChatGPTClient, fastapi.Depends(chat_gpt_client)],
+    chat_gpt_client: typing.Annotated[ChatGPTClient, fastapi.Depends(chat_gpt_client)],
     clusters_client: typing.Annotated[ClustersClient, fastapi.Depends(clusters_client)],
     wb_client: typing.Annotated[WBClient, fastapi.Depends(wb_client)],
 ) -> ReportsRepository:

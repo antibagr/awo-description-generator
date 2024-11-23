@@ -1,7 +1,7 @@
 import aiohttp
 import pytest
 
-from app.lib.chatgpt import AiohttpChatGPTClient
+from app.lib.chatgpt import ChatGPTClient, OpenAIChatGPTClient
 from app.lib.clusters import ClustersClient
 from app.lib.wb import WBClient
 from app.repository.reports import ReportsRepository
@@ -20,10 +20,9 @@ async def aiohttp_session() -> aiohttp.ClientSession:
 
 
 @pytest.fixture()
-async def chat_gpt_client(settings: Settings) -> AiohttpChatGPTClient:
-    return AiohttpChatGPTClient(
+async def chat_gpt_client(settings: Settings) -> OpenAIChatGPTClient:
+    return OpenAIChatGPTClient(
         token=settings.OPENAI_API_KEY,
-        url=settings.GPT_URL,
         prompt=settings.GPT_PROMPT,
         proxy=settings.GPT_PROXY,
         model=settings.GPT_MODEL,
@@ -32,17 +31,17 @@ async def chat_gpt_client(settings: Settings) -> AiohttpChatGPTClient:
 
 @pytest.fixture()
 async def clusters_client(settings: Settings) -> ClustersClient:
-    return ClustersClient(url=settings.CLUSTERS_SERVICE_URL)
+    return ClustersClient(url=str(settings.CLUSTERS_SERVICE_URL))
 
 
 @pytest.fixture()
 async def wb_client(settings: Settings) -> WBClient:
-    return WBClient(url=settings.WB_URL, token=settings.WB_TOKEN.get_secret_value())
+    return WBClient(url=str(settings.WB_URL), token=settings.WB_TOKEN.get_secret_value())
 
 
 @pytest.fixture()
 async def reports_repo(
-    chat_gpt_client: AiohttpChatGPTClient,
+    chat_gpt_client: ChatGPTClient,
     clusters_client: ClustersClient,
     wb_client: WBClient,
 ) -> ReportsRepository:

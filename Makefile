@@ -42,5 +42,7 @@ compose-down: ## Stop the development server with docker-compose
 .PHONY: compose-down
 
 run-web: ## Run the web server
-	$(py) gunicorn -w 1 -k uvicorn.workers.UvicornWorker app.asgi:fastapi_app --bind 0.0.0.0:8000 --timeout 300 --log-level debug
+	$(py) gunicorn -w 1 -k uvicorn.workers.UvicornWorker \
+		app.asgi:fastapi_app --bind 0.0.0.0:8000 --timeout 300 \
+		--graceful-timeout 30 --log-level DEBUG
 .PHONY: run-web

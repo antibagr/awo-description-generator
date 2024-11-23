@@ -25,5 +25,5 @@ class WBClient:
                         if "results" in data:
                             wb_count += sum(i["request_count"] for i in data["results"])
                     else:
-                        logger.error(f"Failed to get wb count for {kw}: {response.status}")
+                        logger.error(f"Failed to get wb count for '{kw}': {response.status} {await response.text()}")
         return wb_count

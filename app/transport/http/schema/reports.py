@@ -10,7 +10,7 @@ from app.dto.entities.base import APISchemeBaseModel
 class CreateReportRequestPayload(APISchemeBaseModel):
     product_name: annotations.String
     length: pydantic.PositiveInt
-    tone_of_voice: typing.Annotated[str, enums.ToneOfVoice]
+    tone_of_voice: enums.ToneOfVoice = enums.ToneOfVoice.NEUTRAL
     keywords: list[annotations.String]
     minus_words: list[annotations.String]
     advantages: list[annotations.String]

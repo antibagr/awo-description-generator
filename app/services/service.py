@@ -2,7 +2,7 @@ import contextlib
 import typing
 
 from app import logs
-from app.lib.chatgpt import AiohttpChatGPTClient
+from app.lib.chatgpt import OpenAIChatGPTClient
 from app.lib.clusters import ClustersClient
 from app.lib.wb import WBClient
 from app.repository.reports import ReportsRepository
@@ -11,19 +11,18 @@ from app.services.reports import ReportsService
 from app.settings import settings
 
 # Dependencies Layer
-chat_gpt_client = AiohttpChatGPTClient(
+chat_gpt_client = OpenAIChatGPTClient(
     token=settings.OPENAI_API_KEY.get_secret_value(),
-    url=settings.GPT_URL,
     prompt=settings.GPT_PROMPT,
     proxy=settings.GPT_PROXY,
 )
 
 clusters_client = ClustersClient(
-    url=settings.CLUSTERS_SERVICE_URL,
+    url=str(settings.CLUSTERS_SERVICE_URL),
 )
 
 wb_client = WBClient(
-    url=settings.WB_URL,
+    url=str(settings.WB_URL),
     token=settings.WB_TOKEN.get_secret_value(),
 )
 
